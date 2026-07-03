@@ -26,7 +26,7 @@ const committeeQuestions = {
     "IT": [
         "ماذا يحدث عند كتابة رابط في المتصفح والضغط على Enter؟",
         "ما الفرق بين <div> و <span>؟",
-        "ما هو مفهوم الـ Semantic HTML ولماذا هو مهم？",
+        "ما هو مفهوم الـ Semantic HTML ولماذا هو مهم؟",
         "اشرح الفرق بين position: absolute و position: relative.",
         "ما هو الـ Flexbox وكيف نوسط عنصراً في منتصف الشاشة؟"
     ],
@@ -44,9 +44,9 @@ const committeeQuestions = {
         "ماذا تفعل لو تعارضت قراراتك كمنسق مع رؤية رئيس اللجنة (Head)؟"
     ],
     "Heads": [
-        "إذا حدث خلاف حاد بين منسقين داخل لجنتك، كيف تديره وتحله؟",
+        "إذا حدث خلاف حاد بين منسقين داخل لجنتك، كيف تديره وتحله？",
         "كيف تضع خطة استراتيجية مرنة لإدارة اللجنة طوال الموسم الجديد؟",
-        "كيف تضمن ولاء واستمرارية الأعضاء والمنسقين داخل لجنتك ومنع تسربهم？",
+        "كيف تضمن ولاء واستمرارية الأعضاء والمنسقين داخل لجنتك ومنع تسربهم؟",
         "ما هو التصرف الأمثل إذا كُلفت لجنتك بمهمة طارئة وضخمة قبل الفعالية بـ 24 ساعة؟"
     ]
 };
@@ -282,7 +282,7 @@ async function fetchAndRenderWorkspaceCards() {
                 </button>
                 
                 <div style="display: flex; gap: 10px; margin-top: 10px; width: 100%;">
-                    <button id="btnPrintCard" onclick="window.print()" class="btn-print-id" style="flex: 1;">
+                    <button id="btnPrintCard" onclick="window.print()" class="btn-print-id" style="flex: 1; display: none;">
                         <i class="fas fa-print"></i> طباعة الكارنيه
                     </button>
                     <button id="btnDownloadCard" onclick="downloadIDCardAsImage()" style="flex: 1; display: none; background: var(--gold-gradient); color: white; padding: 14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-family:'Cairo'; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
@@ -294,7 +294,7 @@ async function fetchAndRenderWorkspaceCards() {
             <div id="id-card-preview" class="id-card-view">
                 <div class="id-card-header-v">
                     <h3>رواد التطوير والتنمية الشبابية</h3>
-                    <p>منصة الجان الموحدة • GAN TEAM</p>
+                    <p>منصة اللجان الموحدة • GAN TEAM</p>
                 </div>
                 
                 <div class="member-photo-box-v">
@@ -427,6 +427,7 @@ async function checkAndVerifyID() {
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        // تشفير البيانات النهائية الموثقة داخل الـ QR
         const finalQrData = `SAIB GAN TEAM Verified Member\n-------------------------\nName: ${name}\nNational ID: ${nationalId}\nRole: ${pos} / ${comm}\nGovernorate: ${gov}\nSecure Portal 2026`;
         const qrImg = document.getElementById('id-qrcode-img');
         if (qrImg) {
@@ -434,8 +435,11 @@ async function checkAndVerifyID() {
         }
 
         alert("✅ ممتاز! تم توثيق وحفظ بيانات العضوية وتوليد الباركود الذكي بنجاح.");
-        document.getElementById('btnPrintCard').style.display = 'inline-block';
-        document.getElementById('btnDownloadCard').style.display = 'inline-block';
+        
+        // إظهار أزرار الطباعة والتحميل فور النجاح
+        if(document.getElementById('btnPrintCard')) document.getElementById('btnPrintCard').style.display = 'inline-block';
+        if(document.getElementById('btnDownloadCard')) document.getElementById('btnDownloadCard').style.display = 'inline-block';
+        
         fetchAndRenderWorkspaceCards();
 
     } catch (error) {

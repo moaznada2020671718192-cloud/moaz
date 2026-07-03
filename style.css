@@ -11,6 +11,8 @@
     --text-muted: #64748b;
     --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --glass-blur: blur(12px);
+    --gold-gradient: linear-gradient(135deg, #ff8800, #ffaa44);
+    --red-ministry: #ef4444;
 }
 
 * {
@@ -42,7 +44,6 @@ body.dark-theme {
 
 /* ==========================================
    2. صفحة تسجيل الدخول واختيار نوع الدخول 
-   (تطابق 1000422056.png و 1000422057.png)
    ========================================== */
 .overlay {
     position: fixed;
@@ -135,7 +136,6 @@ body.dark-theme {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* تفعيل الجلو البرتقالي عند الهوفر أو التنشيط لتطابق الصور */
 .btn-visitor-router:hover, .section-router-card:hover {
     border-color: var(--gold-neon);
     background: rgba(255, 136, 0, 0.04);
@@ -221,7 +221,7 @@ body.dark-theme {
 }
 
 /* ==========================================
-   3. هيكل لوحة التحكم (Dashboard Layout - 1000422067.png)
+   3. هيكل لوحة التحكم (Dashboard Layout)
    ========================================== */
 .dashboard-layout {
     display: flex;
@@ -339,7 +339,7 @@ nav {
     font-weight: 800;
 }
 
-/* شبكة كروت النيون الملونة (6 كروت في صدارة التحكم) */
+/* شبكة كروت النيون الملونة */
 .services-neon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -395,7 +395,7 @@ nav {
     transition: all 0.3s ease;
 }
 
-/* ألوان المتغيرات المضيئة لكل كارت (Neon Themes) */
+/* ألوان المتغيرات المضيئة لكل كارت */
 .card-orange .neon-icon-wrapper { background: rgba(255,136,0,0.1); color: #ff8800; }
 .card-orange:hover { border-color: #ff8800; box-shadow: 0 0 20px rgba(255,136,0,0.1); }
 
@@ -414,7 +414,7 @@ nav {
 .card-red .neon-icon-wrapper { background: rgba(239,68,68,0.1); color: #ef4444; }
 .card-red:hover { border-color: #ef4444; box-shadow: 0 0 20px rgba(239,68,68,0.1); }
 
-/* الألواح والودجات السفلية (Widget Panels) */
+/* الألواح والودجات السفلية */
 .dashboard-bottom-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -478,12 +478,17 @@ nav {
     color: #22c55e;
 }
 
+.status-badge.rejected {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
 .status-badge.pending {
     background: rgba(245, 158, 11, 0.1);
     color: #f59e0b;
 }
 
-/* أزرار ومداخل الكود السري */
+/* أزرار ومداخل الكود السري استمارات الإصدار */
 .id-form-container input, .id-form-container textarea {
     width: 100%;
     background: rgba(0, 0, 0, 0.2);
@@ -493,6 +498,7 @@ nav {
     color: #fff;
     font-family: 'Cairo';
     font-size: 0.9rem;
+    margin-bottom: 10px;
 }
 
 .btn-verify-id, .btn-login {
@@ -505,10 +511,28 @@ nav {
     cursor: pointer;
     font-family: 'Cairo';
     transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
 }
 
 .btn-verify-id:hover, .btn-login:hover {
     box-shadow: 0 0 15px rgba(255, 136, 0, 0.4);
+}
+
+.btn-print-id {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Cairo';
+    transition: all 0.3s ease;
+}
+
+.btn-print-id:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .logout-btn {
@@ -533,6 +557,165 @@ nav {
 
 .exec-card h4 { font-size: 1rem; margin-bottom: 5px; }
 .exec-card span { color: var(--gold-light); font-size: 0.8rem; }
+
+/* ==========================================
+   4. الهيكل التصميمي الفخم للكارنيه الطولي الذكي (ID)
+   ========================================== */
+.id-card-view {
+    width: 320px;
+    height: 500px;
+    background: radial-gradient(circle at top, #111e2e 0%, #070c14 100%);
+    border: 2px solid #ff8800;
+    box-shadow: 0 0 25px rgba(255, 136, 0, 0.25);
+    border-radius: 16px;
+    margin: 30px auto 0 auto;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* خطوط النيون الديكورية داخل الكارنيه */
+.id-card-view::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--gold-gradient);
+}
+
+.id-card-header-v {
+    margin-bottom: 15px;
+}
+
+.id-card-header-v h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.id-card-header-v p {
+    font-size: 0.7rem;
+    color: var(--gold-light);
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.member-photo-box-v {
+    width: 115px;
+    height: 140px;
+    border: 2px solid rgba(255, 136, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.member-photo-box-v img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.id-info-v {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.id-info-group {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.07);
+    padding: 6px 0;
+    text-align: center;
+}
+
+.id-info-group span {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.id-info-group p {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 1px;
+}
+
+#id-qrcode-box {
+    width: 85px;
+    height: 85px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    margin-bottom: 10px;
+}
+
+.id-card-footer-v {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 136, 0, 0.1);
+    border-top: 1px solid rgba(255, 136, 0, 0.2);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    padding: 6px 0;
+    font-weight: bold;
+}
+
+/* ==========================================
+   5. أزرار وأدوات الـ Pagination
+   ========================================== */
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#pagination-container button {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Cairo';
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#pagination-container button:hover {
+    border-color: var(--gold-neon);
+    background: rgba(255, 136, 0, 0.05);
+}
+
+/* التنسيق الخاص بقسم كود الدخول */
+#code-input-area {
+    margin-top: 15px;
+}
 
 /* شاشات الموبايل المتجاوبة */
 @media(max-width: 768px) {
