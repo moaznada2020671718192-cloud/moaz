@@ -1,0 +1,541 @@
+/* ==========================================
+   1. المتغيرات والتجهيزات الأساسية (Theme Setup)
+   ========================================== */
+:root {
+    --bg-dark: #060b13;
+    --bg-card: rgba(13, 22, 33, 0.75);
+    --border-glow: rgba(255, 136, 0, 0.15);
+    --gold-neon: #ff8800;
+    --gold-light: #ffaa44;
+    --text-white: #ffffff;
+    --text-muted: #64748b;
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-blur: blur(12px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body.dark-theme {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 50% 10%, rgba(255, 136, 0, 0.08), transparent 40%),
+        radial-gradient(circle at 10% 80%, rgba(34, 197, 94, 0.03), transparent 30%);
+    color: var(--text-white);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* شريط الأخبار العلوي البسيط */
+.top-news-bar {
+    background: linear-gradient(90deg, #ff8800, #ff5500);
+    color: #000;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 0;
+    font-size: 0.85rem;
+}
+
+/* ==========================================
+   2. صفحة تسجيل الدخول واختيار نوع الدخول 
+   (تطابق 1000422056.png و 1000422057.png)
+   ========================================== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #0d1621 0%, #060b13 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.login-card {
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    position: relative;
+}
+
+/* محاكاة للمنصة الدائرية المضيئة تحت اللوجو */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(255, 136, 0, 0.4), transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.logo-platform {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+.main-logo {
+    width: 130px;
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 136, 0, 0.6));
+}
+
+.welcome-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.welcome-text .highlight {
+    color: var(--gold-neon);
+    text-shadow: 0 0 10px rgba(255, 136, 0, 0.3);
+}
+
+.sub-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+/* تنسيق خيارات وأزرار تسجيل الدخول والدخول كزائر */
+.dashboard-router-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-visitor-router, .section-router-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تفعيل الجلو البرتقالي عند الهوفر أو التنشيط لتطابق الصور */
+.btn-visitor-router:hover, .section-router-card:hover {
+    border-color: var(--gold-neon);
+    background: rgba(255, 136, 0, 0.04);
+    box-shadow: 0 0 20px rgba(255, 136, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.visitor-right-side {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.router-icon-circle, .router-card-img-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--gold-neon);
+    font-size: 1.2rem;
+}
+
+.router-text-side {
+    text-align: right;
+}
+
+.router-text-side h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.router-text-side p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.router-arrow-bottom {
+    color: var(--gold-neon);
+    font-size: 0.9rem;
+}
+
+.separator-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    position: relative;
+    margin: 15px 0;
+}
+
+/* شبكة الأقسام لصفحة الدخول الثانية */
+.sections-router-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+@media(min-width: 480px) {
+    .sections-router-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.section-router-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: right;
+}
+
+.section-router-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.section-router-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* ==========================================
+   3. هيكل لوحة التحكم (Dashboard Layout - 1000422067.png)
+   ========================================== */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* الهيدر العلوي */
+.main-header {
+    background: rgba(13, 22, 33, 0.8);
+    backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-area img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.brand-name h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.brand-name span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* جسم لوحة التحكم */
+.dashboard-body {
+    display: flex;
+    flex: 1;
+}
+
+/* القائمة الجانبية (Sidebar) */
+.dashboard-sidebar {
+    width: 260px;
+    background: rgba(9, 15, 24, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+    color: var(--text-white);
+    background: linear-gradient(90deg, rgba(255, 136, 0, 0.15), transparent);
+    border-right: 3px solid var(--gold-neon);
+    padding-right: 12px;
+}
+
+/* منطقة المحتوى الرئيسي */
+.dashboard-main-content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+}
+
+/* البانر الترحيبي */
+.dashboard-welcome-banner {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.dashboard-welcome-banner h2 {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* شبكة كروت النيون الملونة (6 كروت في صدارة التحكم) */
+.services-neon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.service-neon-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.neon-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.service-neon-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.service-neon-card p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.btn-neon-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+/* ألوان المتغيرات المضيئة لكل كارت (Neon Themes) */
+.card-orange .neon-icon-wrapper { background: rgba(255,136,0,0.1); color: #ff8800; }
+.card-orange:hover { border-color: #ff8800; box-shadow: 0 0 20px rgba(255,136,0,0.1); }
+
+.card-purple .neon-icon-wrapper { background: rgba(168,85,247,0.1); color: #a855f7; }
+.card-purple:hover { border-color: #a855f7; box-shadow: 0 0 20px rgba(168,85,247,0.1); }
+
+.card-blue .neon-icon-wrapper { background: rgba(59,130,246,0.1); color: #3b82f6; }
+.card-blue:hover { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59,130,246,0.1); }
+
+.card-green .neon-icon-wrapper { background: rgba(34,197,94,0.1); color: #22c55e; }
+.card-green:hover { border-color: #22c55e; box-shadow: 0 0 20px rgba(34,197,94,0.1); }
+
+.card-cyan .neon-icon-wrapper { background: rgba(6,182,212,0.1); color: #06b6d4; }
+.card-cyan:hover { border-color: #06b6d4; box-shadow: 0 0 20px rgba(6,182,212,0.1); }
+
+.card-red .neon-icon-wrapper { background: rgba(239,68,68,0.1); color: #ef4444; }
+.card-red:hover { border-color: #ef4444; box-shadow: 0 0 20px rgba(239,68,68,0.1); }
+
+/* الألواح والودجات السفلية (Widget Panels) */
+.dashboard-bottom-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.widget-panel-card, .dashboard-info-panel {
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.widget-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.widget-header h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* تنسيق الجداول داخل الـ Dashboard */
+.dashboard-table-wrapper {
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.dashboard-table th {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dashboard-table td {
+    padding: 14px 12px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* حقول الحالات (Badges) */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-badge.accepted {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.status-badge.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+/* أزرار ومداخل الكود السري */
+.id-form-container input, .id-form-container textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    font-family: 'Cairo';
+    font-size: 0.9rem;
+}
+
+.btn-verify-id, .btn-login {
+    background: linear-gradient(135deg, #ff8800, #ff5500);
+    border: none;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo';
+    transition: all 0.3s ease;
+}
+
+.btn-verify-id:hover, .btn-login:hover {
+    box-shadow: 0 0 15px rgba(255, 136, 0, 0.4);
+}
+
+.logout-btn {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Cairo';
+    font-weight: 600;
+}
+
+/* تنسيق كروت الهيكل القيادي */
+.exec-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.exec-card h4 { font-size: 1rem; margin-bottom: 5px; }
+.exec-card span { color: var(--gold-light); font-size: 0.8rem; }
+
+/* شاشات الموبايل المتجاوبة */
+@media(max-width: 768px) {
+    .dashboard-sidebar { display: none; }
+    .hide-mobile { display: none; }
+}
