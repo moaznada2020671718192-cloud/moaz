@@ -26,7 +26,7 @@ const committeeQuestions = {
     "IT": [
         "ماذا يحدث عند كتابة رابط في المتصفح والضغط على Enter؟",
         "ما الفرق بين <div> و <span>؟",
-        "ما هو مفهوم الـ Semantic HTML ولماذا هو مهم؟",
+        "ما هو مفهوم الـ Semantic HTML ولماذا هو مهم？",
         "اشرح الفرق بين position: absolute و position: relative.",
         "ما هو الـ Flexbox وكيف نوسط عنصراً في منتصف الشاشة؟"
     ],
@@ -44,7 +44,7 @@ const committeeQuestions = {
         "ماذا تفعل لو تعارضت قراراتك كمنسق مع رؤية رئيس اللجنة (Head)؟"
     ],
     "Heads": [
-        "إذا حدث خلاف حاد بين منسقين داخل لجنتك، كيف تديره وتحله？",
+        "إذا حدث خلاف حاد بين منسقين داخل لجنتك، كيف تديره وتحله؟",
         "كيف تضع خطة استراتيجية مرنة لإدارة اللجنة طوال الموسم الجديد؟",
         "كيف تضمن ولاء واستمرارية الأعضاء والمنسقين داخل لجنتك ومنع تسربهم؟",
         "ما هو التصرف الأمثل إذا كُلفت لجنتك بمهمة طارئة وضخمة قبل الفعالية بـ 24 ساعة؟"
@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const driveBtn = document.getElementById("drive-zone");
     if(driveBtn) {
         driveBtn.addEventListener("click", function() {
+            // التحقق من نوع الحساب قبل فتح الرابط كأمان إضافي لحظر الزوار
+            if (currentAccessType === "زائر") {
+                alert("❌ عذراً، لا تمتلك صلاحية الوصول لملفات جوجل درايف الخاصة بالكيان.");
+                return;
+            }
             window.open(generalDrive, "_blank");
         });
     }
@@ -77,6 +82,10 @@ document.addEventListener("DOMContentLoaded", function() {
 // --- وظائف التحكم بالدخول والدوال المصلحة ---
 function guestAccess() { 
     document.getElementById('login-overlay').style.display = 'none'; 
+    currentAccessType = "زائر";
+    
+    // إخفاء وحظر كافة الصلاحيات والأقسام المطلوبة للزوار بالملي
+    setVisitorRestrictedUI(true);
     renderAllUI(); 
 }
 
@@ -107,6 +116,7 @@ function checkAccess() {
         if(document.getElementById('nav-admin-dashboard')) document.getElementById('nav-admin-dashboard').style.display = 'inline-block';
 
         currentAccessType = "إدارة";
+        setVisitorRestrictedUI(false); // إتاحة الصلاحيات الكاملة
         loadWorkspace("لوحة التحكم الإدارية للمكتب التنفيذي");
         fetchInterviewSheetData(); // جلب وربط كشوفات جوجل شيت لايف
     } else if ((provinces[code] && selectedLoginType === 'provinces') || (centralCommittees[code] && selectedLoginType === 'committees')) {
@@ -119,11 +129,35 @@ function checkAccess() {
         if(document.getElementById('nav-admin-dashboard')) document.getElementById('nav-admin-dashboard').style.display = 'none';
         
         currentAccessType = data.name;
+        setVisitorRestrictedUI(false); // إتاحة الصلاحيات الكاملة للأعضاء واللجان والمحافظات
         loadWorkspace(data.name);
     } else { 
         alert("❌ الكود السري الذي أدخلته غير صحيح أو لا يطابق البوابة المختارة!"); 
     }
     renderAllUI();
+}
+
+// دالة مخصصة لإدارة إخفاء وإظهار النوافذ بناءً على رتبة الدخول لضمان أمان الزوار الملي
+function setVisitorRestrictedUI(isVisitor) {
+    const elementsToHide = [
+        'workspace-section',       // سكشن الـ ID وإصداره
+        'menu-id-gate',            // أيقونة السايدبار للـ ID
+        'card-id-gate',            // كارد النيون للـ ID في الرئيسية
+        'interview-section',       // سكشن المقابلات والأسئلة
+        'menu-interviews',         // أيقونة السايدبار للمقابلات
+        'card-interviews',         // كارد النيون للمقابلات
+        'admin-activity-controls', // جزء إضافة الفعاليات والأنشطة والشرائح
+        'drive-zone',              // زر جوجل درايف الكبير
+        'menu-drive',              // أيقونة السايدبار لجوجل درايف
+        'card-drive'               // كارد النيون لجوجل درايف
+    ];
+
+    elementsToHide.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = isVisitor ? 'none' : '';
+        }
+    });
 }
 
 // --- وظائف المقابلات الموحدة ---
@@ -252,13 +286,22 @@ function filterInterviewTable() {
 // --- سكشن بناء وتوثيق الكارنيه الطولي الفخم حماية من التكرار مع الـ Pagination ---
 function loadWorkspace(title) {
     const section = document.getElementById('workspace-section');
-    if(section) section.style.display = 'block';
-    document.getElementById('ws-title').innerText = `بوابة الأعضاء | ${title}`;
-    fetchAndRenderWorkspaceCards();
+    if(section) section.style.display = (currentAccessType === "زائر") ? 'none' : 'block';
+    
+    const wsTitleElement = document.getElementById('ws-title');
+    if(wsTitleElement) wsTitleElement.innerText = `بوابة الأعضاء | ${title}`;
+    
+    if (currentAccessType !== "زائر") {
+        fetchAndRenderWorkspaceCards();
+    }
 }
+
+// مصفوفة للاحتفاظ ببيانات الصورة محلياً لضمان حقنها بالـ ID بنجاح فوراً
+let globalIDPhotoBase64 = "https://via.placeholder.com/110x135";
 
 async function fetchAndRenderWorkspaceCards() {
     const grid = document.getElementById('members-grid');
+    if(!grid) return;
     
     let baseHTML = `
     <div style="width: 100%; margin-top: 10px;">
@@ -298,7 +341,7 @@ async function fetchAndRenderWorkspaceCards() {
                 </div>
                 
                 <div class="member-photo-box-v">
-                    <img id="id-photo-preview" src="https://via.placeholder.com/110x135" alt="الصورة">
+                    <img id="id-photo-preview" src="${globalIDPhotoBase64}" alt="الصورة">
                 </div>
                 
                 <div class="id-info-v">
@@ -413,8 +456,8 @@ async function checkAndVerifyID() {
         const snapshot = await db.collection("registered_ids").where("nationalId", "==", nationalId).get();
         if (!snapshot.empty) {
             alert("❌ عذراً، هذا الرقم القومي مسجل ومصدر له ID مسبقاً!");
-            document.getElementById('btnPrintCard').style.display = 'none';
-            document.getElementById('btnDownloadCard').style.display = 'none';
+            if(document.getElementById('btnPrintCard')) document.getElementById('btnPrintCard').style.display = 'none';
+            if(document.getElementById('btnDownloadCard')) document.getElementById('btnDownloadCard').style.display = 'none';
             return;
         }
 
@@ -424,6 +467,7 @@ async function checkAndVerifyID() {
             governorate: gov,
             position: pos,
             committee: comm,
+            photoData: globalIDPhotoBase64, // حفظ رابط الصورة الثابت بداخل الفايربيس للتوثيق الكامل
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
@@ -476,7 +520,11 @@ function previewImage(event) {
     const file = event.target.files[0]; 
     if (file) { 
         const reader = new FileReader(); 
-        reader.onload = () => document.getElementById('id-photo-preview').src = reader.result; 
+        reader.onload = () => {
+            globalIDPhotoBase64 = reader.result;
+            const previewTarget = document.getElementById('id-photo-preview');
+            if(previewTarget) previewTarget.src = reader.result;
+        }; 
         reader.readAsDataURL(file); 
     } 
 }
@@ -501,6 +549,30 @@ function updateIDCard() {
             qrImg.src = `https://chart.googleapis.com/chart?cht=qr&chs=150x150&chl=${encodeURIComponent(qrData)}`;
         }
     }
+}
+
+// دالة تفاعلية جديدة لإتاحة ونشر الفعاليات من لوحة التحكم بنجاح تام
+function publishNewActivity() {
+    const activityTextInput = document.getElementById('admin-activity-text'); // تأكد من مطابقة الـ ID بالـ HTML
+    if (!activityTextInput) return;
+    
+    const text = activityTextInput.value.trim();
+    if (!text) {
+        alert("❌ برجاء كتابة تفاصيل الفعالية أو النشاط أولاً قبل النشر!");
+        return;
+    }
+
+    db.collection("activities").add({
+        text: text,
+        images: [], // يمكنك دمج منطق رفع الصور هنا مستقبلاً إذا أردت
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        alert("🎉 تم نشر وتوثيق الفعالية بنجاح في قاعدة البيانات!");
+        activityTextInput.value = "";
+    }).catch(err => {
+        console.error("خطأ في نشر الفعالية: ", err);
+        alert("❌ فشل النشر، تأكد من صلاحيات وقواعد بيانات الـ Firestore");
+    });
 }
 
 // --- باقي وظائف السيستم واللوحات المساعدة لضمان عمل الأزرار بالملي ---
