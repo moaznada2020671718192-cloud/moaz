@@ -50,8 +50,13 @@ html {
     padding: 8px 0;
     overflow: hidden;
     white-space: nowrap;
-    position: relative;
-    z-index: 1000;
+    
+    /* التعديل الجديد للتثبيت هنا 👇 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2500; /* رفع الـ z-index علشان يفضل فوق الهيدر وكل العناصر */
     font-weight: 600;
 }
 
@@ -302,7 +307,10 @@ html {
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.05);
     position: sticky;
-    top: 0;
+    
+    /* التعديل الجديد هنا 👇 */
+    top: 35px; /* غيرنا الـ top من 0 إلى 35px علشان يسيب مساحة لشريط الأخبار الثابت فوقه وما يغطوش على بعض */
+    
     z-index: 1100;
     padding: 12px 0;
 }
